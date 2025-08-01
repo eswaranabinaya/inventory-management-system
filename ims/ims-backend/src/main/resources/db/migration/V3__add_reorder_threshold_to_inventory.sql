@@ -1,0 +1,1 @@
+ALTER TABLE inventory ADD COLUMN reorder_threshold INTEGER DEFAULT 10;
