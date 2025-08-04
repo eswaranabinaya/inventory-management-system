@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/react.svg'; // Replace with your logo if available
 
 const LoginPage = () => {
   const [form, setForm] = useState({ username: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -14,61 +16,86 @@ const LoginPage = () => {
     e.preventDefault();
     setError('');
     try {
-      console.log('Attempting login with:', form); // Debug log
       const API_URL = import.meta.env.VITE_API_URL;
       const res = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      console.log('Response status:', res.status); // Debug log
-      console.log('Response headers:', res.headers); // Debug log
-      
       if (!res.ok) {
         const errorText = await res.text();
-        console.log('Error response:', errorText); // Debug log
         throw new Error('Invalid username or password');
       }
-      
       const data = await res.json();
-      console.log('Login response:', data); // Debug log
-      
       if (!data.token) {
         throw new Error('No token received from server');
       }
-      
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.username);
       localStorage.setItem('role', data.role);
-      console.log('Token stored:', localStorage.getItem('token')); // Debug log
-      console.log('Navigating to /home...'); // Debug log
-      // Navigate directly to /home instead of / to avoid routing issues
       navigate('/home');
     } catch (err) {
-      console.error('Login error:', err); // Debug log
       setError(err.message);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow max-w-sm w-full">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-        {error && <div className="text-red-600 mb-4">{error}</div>}
-        <div className="mb-4">
-          <label className="block mb-1">Username</label>
-          <input name="username" value={form.username} onChange={handleChange} className="border p-2 w-full" required />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400">
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md animate-fade-in">
+        <div className="flex flex-col items-center mb-6">
+          <img src={logo} alt="IMS Logo" className="h-12 mb-2" />
+          <h2 className="text-2xl font-bold text-gray-800">Inventory Management</h2>
         </div>
-        <div className="mb-6">
-          <label className="block mb-1">Password</label>
-          <input name="password" type="password" value={form.password} onChange={handleChange} className="border p-2 w-full" required />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-gray-700 mb-1" htmlFor="username">Username</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              autoComplete="username"
+              required
+              value={form.username}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-1" htmlFor="password">Password</label>
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="current-password"
+                required
+                value={form.password}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <button
+                type="button"
+                className="absolute right-2 top-2 text-gray-500 text-sm"
+                onClick={() => setShowPassword(v => !v)}
+                tabIndex={-1}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
+          </div>
+          {error && <div className="text-red-500 text-sm">{error}</div>}
+          <button
+            type="submit"
+            className="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+          >
+            Sign In
+          </button>
+        </form>
+        <div className="flex justify-between mt-4 text-sm">
+          <button type="button" className="text-blue-500 hover:underline" onClick={() => navigate('/forgot-password')}>Forgot password?</button>
+          <button type="button" className="text-blue-500 hover:underline" onClick={() => navigate('/register')}>Create account</button>
         </div>
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded w-full">Login</button>
-        <div className="mt-4 text-center">
-          <span>Don't have an account? </span>
-          <button type="button" className="text-blue-600 underline" onClick={() => navigate('/register')}>Register</button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };
