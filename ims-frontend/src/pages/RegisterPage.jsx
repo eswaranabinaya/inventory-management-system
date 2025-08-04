@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/react.svg'; // Use your logo or keep as placeholder
 
 const RegisterPage = () => {
   const [form, setForm] = useState({ username: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
 
-  const handleChange = e => {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
-  };
+  const handleChange = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -32,24 +32,59 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow max-w-sm w-full">
-        <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
-        {error && <div className="text-red-600 mb-4">{error}</div>}
-        <div className="mb-4">
-          <label className="block mb-1">Username</label>
-          <input name="username" value={form.username} onChange={handleChange} className="border p-2 w-full" required />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-purple-400 to-pink-300">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-10 flex flex-col items-center">
+        <img src={logo} alt="IMS Logo" className="h-14 mb-4" />
+        <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">Inventory Management</h2>
+        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
+          <div>
+            <label className="block text-gray-700 mb-2" htmlFor="username">Username</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              autoComplete="username"
+              required
+              value={form.username}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 mb-2" htmlFor="password">Password</label>
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="new-password"
+                required
+                value={form.password}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-medium"
+                onClick={() => setShowPassword(v => !v)}
+                tabIndex={-1}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
+          </div>
+          {error && <div className="text-red-500 text-sm text-center">{error}</div>}
+          <button
+            type="submit"
+            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-lg shadow transition"
+          >
+            Register
+          </button>
+        </form>
+        <div className="flex w-full justify-between mt-6 text-sm">
+          <button type="button" className="text-blue-500 hover:underline" onClick={() => navigate('/login')}>Already have an account? Login</button>
         </div>
-        <div className="mb-6">
-          <label className="block mb-1">Password</label>
-          <input name="password" type="password" value={form.password} onChange={handleChange} className="border p-2 w-full" required />
-        </div>
-        <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded w-full">Register</button>
-        <div className="mt-4 text-center">
-          <span>Already have an account? </span>
-          <button type="button" className="text-blue-600 underline" onClick={() => navigate('/login')}>Login</button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };
