@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 
 const defaultValues = {
@@ -40,8 +41,9 @@ const ProductForm = ({ initialValues = defaultValues, onSubmit, submitLabel = 'S
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <div>
-        <label className="block font-medium">Name *</label>
+        <label htmlFor="name" className="block font-medium">Name *</label>
         <input
+          id="name"
           type="text"
           name="name"
           value={form.name}
@@ -51,8 +53,9 @@ const ProductForm = ({ initialValues = defaultValues, onSubmit, submitLabel = 'S
         {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
       </div>
       <div>
-        <label className="block font-medium">SKU *</label>
+        <label htmlFor="sku" className="block font-medium">SKU *</label>
         <input
+          id="sku"
           type="text"
           name="sku"
           value={form.sku}
@@ -62,8 +65,9 @@ const ProductForm = ({ initialValues = defaultValues, onSubmit, submitLabel = 'S
         {errors.sku && <p className="text-red-500 text-sm">{errors.sku}</p>}
       </div>
       <div>
-        <label className="block font-medium">Category</label>
+        <label htmlFor="category" className="block font-medium">Category</label>
         <input
+          id="category"
           type="text"
           name="category"
           value={form.category}
@@ -72,8 +76,9 @@ const ProductForm = ({ initialValues = defaultValues, onSubmit, submitLabel = 'S
         />
       </div>
       <div>
-        <label className="block font-medium">Price *</label>
+        <label htmlFor="price" className="block font-medium">Price *</label>
         <input
+          id="price"
           type="number"
           name="price"
           value={form.price}
@@ -85,8 +90,9 @@ const ProductForm = ({ initialValues = defaultValues, onSubmit, submitLabel = 'S
         {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
       </div>
       <div>
-        <label className="block font-medium">Description</label>
+        <label htmlFor="description" className="block font-medium">Description</label>
         <textarea
+          id="description"
           name="description"
           value={form.description}
           onChange={handleChange}

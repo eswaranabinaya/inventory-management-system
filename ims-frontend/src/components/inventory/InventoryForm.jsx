@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 
 const defaultValues = {
@@ -38,8 +39,9 @@ const InventoryForm = ({ initialValues = defaultValues, onSubmit, submitLabel = 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <div>
-        <label className="block font-medium">Product *</label>
+        <label htmlFor="productId" className="block font-medium">Product *</label>
         <select
+          id="productId"
           name="productId"
           value={form.productId}
           onChange={handleChange}
@@ -53,8 +55,9 @@ const InventoryForm = ({ initialValues = defaultValues, onSubmit, submitLabel = 
         {errors.productId && <p className="text-red-500 text-sm">{errors.productId}</p>}
       </div>
       <div>
-        <label className="block font-medium">Warehouse *</label>
+        <label htmlFor="warehouseId" className="block font-medium">Warehouse *</label>
         <select
+          id="warehouseId"
           name="warehouseId"
           value={form.warehouseId}
           onChange={handleChange}
@@ -68,8 +71,9 @@ const InventoryForm = ({ initialValues = defaultValues, onSubmit, submitLabel = 
         {errors.warehouseId && <p className="text-red-500 text-sm">{errors.warehouseId}</p>}
       </div>
       <div>
-        <label className="block font-medium">Quantity *</label>
+        <label htmlFor="quantity" className="block font-medium">Quantity *</label>
         <input
+          id="quantity"
           type="number"
           name="quantity"
           value={form.quantity}

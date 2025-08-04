@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.persistence.EntityNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.validation.FieldError;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,6 +20,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrity(DataIntegrityViolationException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidation(MethodArgumentNotValidException ex) {
+        StringBuilder sb = new StringBuilder("Validation failed: ");
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            sb.append(error.getField()).append(" - ").append(error.getDefaultMessage()).append("; ");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(sb.toString());
     }
 
     @ExceptionHandler(Exception.class)

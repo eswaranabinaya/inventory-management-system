@@ -4,6 +4,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "purchase_order")
@@ -28,6 +29,9 @@ public class PurchaseOrder {
 
     @Column(nullable = false)
     private Integer quantity;
+
+    @Column(nullable = false)
+    private BigDecimal unitCost;
 
     @Column(nullable = false)
     private LocalDateTime orderDate = LocalDateTime.now();

@@ -17,24 +17,50 @@ import InventoryEditPage from './pages/inventory/InventoryEditPage';
 import PurchaseOrderListPage from './pages/purchaseOrders/PurchaseOrderListPage';
 import PurchaseOrderCreatePage from './pages/purchaseOrders/PurchaseOrderCreatePage';
 import StockAlertsPage from './pages/StockAlertsPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import ReportingDashboard from './pages/ReportingDashboard';
+import InventoryTurnoverPage from './pages/reporting/InventoryTurnoverPage';
+import StockValuationPage from './pages/reporting/StockValuationPage';
+import InventoryTrendsPage from './pages/reporting/InventoryTrendsPage';
+
+function RequireAuth({ children }) {
+  const token = localStorage.getItem('token');
+  console.log('RequireAuth - Token:', token); // Debug log
+  if (!token) {
+    console.log('RequireAuth - No token, redirecting to login'); // Debug log
+    return <Navigate to="/login" replace />;
+  }
+  console.log('RequireAuth - Token found, rendering children'); // Debug log
+  return children;
+}
 
 function App() {
+  const token = localStorage.getItem('token');
+  console.log('App - Current token:', token); // Debug log
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<ProductListPage />} />
-        <Route path="/products/new" element={<ProductCreatePage />} />
-        <Route path="/products/:id/edit" element={<ProductEditPage />} />
-        <Route path="/warehouses" element={<WarehouseListPage />} />
-        <Route path="/warehouses/new" element={<WarehouseCreatePage />} />
-        <Route path="/warehouses/:id/edit" element={<WarehouseEditPage />} />
-        <Route path="/inventory" element={<InventoryListPage />} />
-        <Route path="/inventory/new" element={<InventoryCreatePage />} />
-        <Route path="/inventory/:id/edit" element={<InventoryEditPage />} />
-        <Route path="/purchase-orders" element={<PurchaseOrderListPage />} />
-        <Route path="/purchase-orders/new" element={<PurchaseOrderCreatePage />} />
-        <Route path="/stock-alerts" element={<StockAlertsPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={token ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />} />
+        <Route path="/home" element={<RequireAuth><HomePage /></RequireAuth>} />
+        <Route path="/products" element={<RequireAuth><ProductListPage /></RequireAuth>} />
+        <Route path="/products/new" element={<RequireAuth><ProductCreatePage /></RequireAuth>} />
+        <Route path="/products/:id/edit" element={<RequireAuth><ProductEditPage /></RequireAuth>} />
+        <Route path="/warehouses" element={<RequireAuth><WarehouseListPage /></RequireAuth>} />
+        <Route path="/warehouses/new" element={<RequireAuth><WarehouseCreatePage /></RequireAuth>} />
+        <Route path="/warehouses/:id/edit" element={<RequireAuth><WarehouseEditPage /></RequireAuth>} />
+        <Route path="/inventory" element={<RequireAuth><InventoryListPage /></RequireAuth>} />
+        <Route path="/inventory/new" element={<RequireAuth><InventoryCreatePage /></RequireAuth>} />
+        <Route path="/inventory/:id/edit" element={<RequireAuth><InventoryEditPage /></RequireAuth>} />
+        <Route path="/purchase-orders" element={<RequireAuth><PurchaseOrderListPage /></RequireAuth>} />
+        <Route path="/purchase-orders/new" element={<RequireAuth><PurchaseOrderCreatePage /></RequireAuth>} />
+        <Route path="/stock-alerts" element={<RequireAuth><StockAlertsPage /></RequireAuth>} />
+        <Route path="/reporting" element={<RequireAuth><ReportingDashboard /></RequireAuth>} />
+        <Route path="/reporting/inventory-turnover" element={<RequireAuth><InventoryTurnoverPage /></RequireAuth>} />
+        <Route path="/reporting/stock-valuation" element={<RequireAuth><StockValuationPage /></RequireAuth>} />
+        <Route path="/reporting/inventory-trends" element={<RequireAuth><InventoryTrendsPage /></RequireAuth>} />
       </Routes>
     </Router>
   );

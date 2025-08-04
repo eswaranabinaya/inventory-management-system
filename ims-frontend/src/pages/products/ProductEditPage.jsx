@@ -1,7 +1,9 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ProductForm from '../../components/products/ProductForm';
 import { getProduct, updateProduct } from '../../services/productService';
+import HomeButton from "../../components/HomeButton";
 
 const ProductEditPage = () => {
   const { id } = useParams();
@@ -44,6 +46,7 @@ const ProductEditPage = () => {
 
   return (
     <div className="p-6">
+      <HomeButton />
       <h1 className="text-2xl font-bold mb-4">Edit Product</h1>
       <ProductForm initialValues={initialValues} onSubmit={handleSubmit} submitLabel="Update" />
     </div>

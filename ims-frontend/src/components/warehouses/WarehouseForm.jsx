@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 
 const defaultValues = {
@@ -32,8 +33,9 @@ const WarehouseForm = ({ initialValues = defaultValues, onSubmit, submitLabel = 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <div>
-        <label className="block font-medium">Name *</label>
+        <label htmlFor="name" className="block font-medium">Name *</label>
         <input
+          id="name"
           type="text"
           name="name"
           value={form.name}
@@ -43,8 +45,9 @@ const WarehouseForm = ({ initialValues = defaultValues, onSubmit, submitLabel = 
         {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
       </div>
       <div>
-        <label className="block font-medium">Location</label>
+        <label htmlFor="location" className="block font-medium">Location</label>
         <input
+          id="location"
           type="text"
           name="location"
           value={form.location}

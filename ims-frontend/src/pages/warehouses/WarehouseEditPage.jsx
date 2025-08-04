@@ -1,7 +1,9 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import WarehouseForm from '../../components/warehouses/WarehouseForm';
 import { getWarehouse, updateWarehouse } from '../../services/warehouseService';
+import HomeButton from "../../components/HomeButton";
 
 const WarehouseEditPage = () => {
   const { id } = useParams();
@@ -41,6 +43,7 @@ const WarehouseEditPage = () => {
 
   return (
     <div className="p-6">
+      <HomeButton />
       <h1 className="text-2xl font-bold mb-4">Edit Warehouse</h1>
       <WarehouseForm initialValues={initialValues} onSubmit={handleSubmit} submitLabel="Update" />
     </div>

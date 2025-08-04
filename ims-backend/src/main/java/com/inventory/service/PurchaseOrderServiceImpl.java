@@ -7,10 +7,12 @@ import com.inventory.model.PurchaseOrder;
 import com.inventory.model.Product;
 import com.inventory.model.Warehouse;
 import com.inventory.model.Inventory;
+import com.inventory.model.InventoryMovement;
 import com.inventory.repository.PurchaseOrderRepository;
 import com.inventory.repository.ProductRepository;
 import com.inventory.repository.WarehouseRepository;
 import com.inventory.repository.InventoryRepository;
+import com.inventory.repository.InventoryMovementRepository;
 import com.inventory.service.StockAlertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +31,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private final ProductRepository productRepository;
     private final WarehouseRepository warehouseRepository;
     private final InventoryRepository inventoryRepository;
+    private final InventoryMovementRepository inventoryMovementRepository;
     private final StockAlertService stockAlertService;
 
     @Override
@@ -37,6 +41,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 .productName(requestDTO.getProductName())
                 .warehouseName(requestDTO.getWarehouseName())
                 .quantity(requestDTO.getQuantity())
+                .unitCost(BigDecimal.ZERO) // Set default value
                 .orderDate(LocalDateTime.now())
                 .userId(requestDTO.getUserId())
                 .status(PurchaseOrder.Status.PENDING)
@@ -85,6 +90,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         inventoryRepository.save(inventory);
         stockAlertService.createAlertIfLowStock(inventory);
+        // Log inventory movement
+        InventoryMovement movement = InventoryMovement.builder()
+            .product(product)
+            .warehouse(warehouse)
+            .movementType(InventoryMovement.MovementType.INBOUND)
+            .quantity(po.getQuantity())
+            .unitCost(po.getUnitCost() != null ? po.getUnitCost() : BigDecimal.ZERO)
+            .movementDate(LocalDateTime.now())
+            .reference("PO-" + po.getId())
+            .build();
+        inventoryMovementRepository.save(movement);
         // Update PO status
         po.setStatus(PurchaseOrder.Status.RECEIVED);
         po.setReceivedAt(LocalDateTime.now());

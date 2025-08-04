@@ -1,9 +1,11 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import InventoryForm from '../../components/inventory/InventoryForm';
 import { getInventory, updateInventory } from '../../services/inventoryService';
 import { getProducts } from '../../services/productService';
 import { getWarehouses } from '../../services/warehouseService';
+import HomeButton from "../../components/HomeButton";
 
 const InventoryEditPage = () => {
   const { id } = useParams();
@@ -53,6 +55,7 @@ const InventoryEditPage = () => {
 
   return (
     <div className="p-6">
+      <HomeButton />
       <h1 className="text-2xl font-bold mb-4">Edit Inventory</h1>
       <InventoryForm initialValues={initialValues} onSubmit={handleSubmit} submitLabel="Update" products={products} warehouses={warehouses} />
     </div>
