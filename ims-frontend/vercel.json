@@ -13,6 +13,9 @@
   "env": {
     "VITE_API_URL": "https://inventory-management-system-production-ecdc.up.railway.app"
   },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
