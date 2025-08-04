@@ -1,4 +1,4 @@
-const API_BASE = '/api/warehouses';
+const API_BASE = `${import.meta.env.VITE_API_URL}/api/warehouses`;
 
 function getAuthHeaders() {
   const token = localStorage.getItem('token');

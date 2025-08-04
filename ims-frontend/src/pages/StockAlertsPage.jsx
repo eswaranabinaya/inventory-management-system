@@ -6,8 +6,10 @@ const getAuthHeaders = () => {
   return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const fetchStockAlerts = async () => {
-  const res = await fetch('/api/stock-alerts', {
+  const res = await fetch(`${API_URL}/api/stock-alerts`, {
     headers: {
       ...getAuthHeaders(),
     },
@@ -17,7 +19,7 @@ const fetchStockAlerts = async () => {
 };
 
 const resolveStockAlert = async (id) => {
-  const res = await fetch(`/api/stock-alerts/${id}/resolve`, {
+  const res = await fetch(`${API_URL}/api/stock-alerts/${id}/resolve`, {
     method: 'POST',
     headers: {
       ...getAuthHeaders(),
@@ -65,8 +67,13 @@ const StockAlertsPage = () => {
       </div>
       <div className="z-10 flex flex-col items-center justify-center py-16 w-full">
         <div className="flex items-center gap-4 mb-6">
-          <span className="bg-red-600 p-3 rounded-full text-white shadow-lg">
+          <span className="relative bg-red-600 p-3 rounded-full text-white shadow-lg">
             <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01" /><path d="M12 19a2 2 0 002-2H10a2 2 0 002 2z" /></svg>
+            {Array.isArray(alerts) && alerts.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-white text-red-600 rounded-full px-2 py-0.5 text-xs font-bold border border-red-600 shadow z-20">
+                {alerts.length}
+              </span>
+            )}
           </span>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Stock Alerts</h1>
