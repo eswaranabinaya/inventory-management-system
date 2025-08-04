@@ -98,8 +98,8 @@
 			<version>2.2.0</version>
 		</dependency>
 		<dependency>
-			<groupId>jakarta.validation</groupId>
-			<artifactId>jakarta.validation-api</artifactId>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>

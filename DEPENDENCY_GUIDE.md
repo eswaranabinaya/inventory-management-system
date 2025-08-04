@@ -11,9 +11,9 @@
    - **Reason**: Security vulnerabilities in older version
 
 2. **Validation API Conflicts**
-   - **Removed**: Conflicting `javax.validation` dependency
-   - **Kept**: `jakarta.validation-api` (Spring Boot managed)
-   - **Reason**: Prevents class loading conflicts
+   - **Fixed**: Added back `javax.validation:validation-api` for Spring Boot 2.7.x compatibility
+   - **Updated**: Import statements to use `javax.validation.constraints.NotNull`
+   - **Reason**: Spring Boot 2.7.x uses javax.validation, not jakarta.validation
 
 3. **OpenAPI Documentation**
    - **Before**: `springdoc-openapi-ui:1.7.0`
@@ -203,10 +203,10 @@ Jwts.parser()
     <version>2.0.1.Final</version>
 </dependency>
 
-<!-- Use Spring Boot managed version -->
+<!-- Use Spring Boot 2.7.x compatible version -->
 <dependency>
-    <groupId>jakarta.validation</groupId>
-    <artifactId>jakarta.validation-api</artifactId>
+    <groupId>javax.validation</groupId>
+    <artifactId>validation-api</artifactId>
 </dependency>
 ```
 
