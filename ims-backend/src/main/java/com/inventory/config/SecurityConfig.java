@@ -38,18 +38,11 @@ public class SecurityConfig {
         http
             .cors().configurationSource(corsConfigurationSource())
             .and()
-            .csrf().ignoringAntMatchers("/api/actuator/**", "/actuator/**")
-            .and()
+            .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers("/api/auth/register").permitAll()
-                .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/actuator/**").permitAll()
-                .antMatchers("/actuator/**").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             .and()
             .addFilterBefore(new JwtAuthFilter(jwtService, userRepository), UsernamePasswordAuthenticationFilter.class);
         return http.build();
