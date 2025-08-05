@@ -35,7 +35,7 @@ const RegisterPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-purple-400 to-pink-300">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-10 flex flex-col items-center">
         <img src={logo} alt="IMS Logo" className="h-14 mb-4" />
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">Inventory Management</h2>
+        <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">Register</h2>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
           <div>
             <label className="block text-gray-700 mb-2" htmlFor="username">Username</label>
@@ -81,8 +81,9 @@ const RegisterPage = () => {
             Register
           </button>
         </form>
-        <div className="flex w-full justify-between mt-6 text-sm">
-          <button type="button" className="text-blue-500 hover:underline" onClick={() => navigate('/login')}>Already have an account? Login</button>
+        <div className="flex w-full justify-center mt-6 text-sm">
+          <span>Already have an account?&nbsp;</span>
+          <button type="button" className="text-blue-500 hover:underline" onClick={() => navigate('/login')}>Login</button>
         </div>
       </div>
     </div>

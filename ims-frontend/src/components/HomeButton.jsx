@@ -7,7 +7,7 @@ const HomeButton = () => {
   return (
     <button
       className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-full w-12 h-12 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-      onClick={() => navigate("/")}
+      onClick={() => navigate("/home")}
       aria-label="Go to Home"
       title="Go to Home"
       style={{ minWidth: 48, minHeight: 48 }}
